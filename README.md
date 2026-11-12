@@ -1,8 +1,5 @@
 # RL Pusher Robotic Arm
 
-Training a 7-DoF robotic arm to push an object to a goal using **Proximal Policy Optimization (PPO)** in the Gymnasium `Pusher-v5` environment, with a custom reward.
-
----
 
 ## Objective
 The objective of this project is to train a 7-DoF robotic arm to push an object towards a specified target position using Reinforcement Learning.
