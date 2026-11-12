@@ -1,14 +1,13 @@
 # RL Pusher Robotic Arm
 
 
-## Objective
+##  Objective
 The objective of this project is to train a 7-DoF robotic arm to push an object towards a specified target position using Reinforcement Learning.
 
 The arm learns an optimal pushing strategy through trial and error using the Proximal Policy Optimization (PPO) algorithm. A custom reward function is designed to encourage the arm to approach the object, make effective contact, and push it towards the goal
 
----
 
-## What is RL?
+## 🤖 What is RL?
 
 Reinforcement Learning (RL) is how a computer learns to do a task **by practicing**, the same way you learn a video game or train a pet.
 
@@ -26,11 +25,10 @@ Reinforcement Learning (RL) is how a computer learns to do a task **by practicin
 
 **In this project:** the learner is a neural network that looks at 23 numbers describing the arm and the object, and decides how hard to turn each of the 7 joints. After every step it gets a reward. We never program the arm's movements. We only design the reward, and the arm figures out how to push the cylinder to the goal by itself.
 
----
-## APPROACH
+## APPROACH 
 
 
-## Environment and observation space
+## 🌍 Environment and observation space
 
 We use the Gymnasium **`Pusher-v5`** environment (MuJoCo): a 7-DoF arm with a forked tip pushes a cylinder to a red goal disc.
 
@@ -41,6 +39,8 @@ We use the Gymnasium **`Pusher-v5`** environment (MuJoCo): a 7-DoF arm with a fo
 | Steps per episode | 100 |
 | Success radius | 5 cm |
 
+
+
 | Observation indices | Meaning |
 | --- | --- |
 | 0 – 6 | Joint angles (7) |
@@ -49,9 +49,12 @@ We use the Gymnasium **`Pusher-v5`** environment (MuJoCo): a 7-DoF arm with a fo
 | 17 – 19 | Object position (x, y, z) |
 | 20 – 22 | Goal position (x, y, z) |
 
----
 
-## Action space
+## 🦾 Action Space
+
+
+<img width="265" height="171" alt="pusher" src="https://github.com/user-attachments/assets/09e9f3a9-dd82-4a42-9122-68568fd679d2" />
+
 
 Each action is a vector of **7 joint torques**, one per joint, each in the range **[-2, 2]**. The PPO actor outputs `a0 … a6`, which are applied to joints `q0 … q6`.
 
@@ -65,9 +68,8 @@ Each action is a vector of **7 joint torques**, one per joint, each in the range
 | q5 | Wrist flex |
 | q6 | Wrist roll |
 
----
 
-## Reward function
+## ⭐ Reward Function
 
 ### Default Gymnasium reward
 
@@ -77,7 +79,7 @@ reward = −0.5·d(tip, obj) − 1.0·d(obj, goal) − 0.1·‖a‖²
 
 By default, `Pusher-v5` has no success condition, so every episode runs for the full 100 steps.
 
-### Our reward
+### Our Reward
 
 ```
 reward = F + 20·Δd(obj, goal) − 0.001·‖a‖² − (0.02·q5² + 0.01·q6²) + 50·success
@@ -93,7 +95,7 @@ reward = F + 20·Δd(obj, goal) − 0.001·‖a‖² − (0.02·q5² + 0.01·q6�
 - **`q5`, `q6`**: the wrist flex and wrist roll joint angles. Penalizing them **keeps the fork level**.
 - **`success`**: equals 1 when the object is within 5 cm of the goal, and the episode ends. The `+50` is the **success bonus**.
 
----
+
 
 ## What is Deep RL?
 
@@ -101,7 +103,7 @@ reward = F + 20·Δd(obj, goal) − 0.001·‖a‖² − (0.02·q5² + 0.01·q6�
 
 In basic RL, the agent keeps a table of what is good in each situation. That works only for small problems. Real problems have far too many possible situations (camera images, many continuous sensor readings, robot joints), so a table is impossible. DRL replaces the table with a neural network that takes the situation as input and learns to recognize patterns, so it can make good decisions even in situations it has never seen exactly before.
 
----
+
 
 ## What is PPO?
 
@@ -123,16 +125,20 @@ Each update uses 8192 samples (4 environments × 2048 steps), reused for 10 epoc
 
 ### The clipping idea
 
+
 Think of clipping as a **speed limit on learning**. After each round of practice, the arm's behavior is only allowed to change by a small amount (about 20%).
 
 - If an action has already become 20% more likely, PPO stops pushing it further, even if it looked really good.
 - If a bad action has already become 20% less likely, PPO stops reducing it further.
+
+<img width="1600" height="835" alt="ppo_diagram" src="https://github.com/user-attachments/assets/197382ee-7201-4562-80c2-7fd54f52c157" />
+
 Without this limit, one lucky or unlucky run could make the arm suddenly behave completely differently and undo everything it had learned. With it, the arm improves steadily.
 
----
 
 
-## Training hyperparameters
+
+## ☢️ Training Hyperparameters
 
 | Setting | Value |
 | --- | --- |
@@ -147,7 +153,7 @@ Without this limit, one lucky or unlucky run could make the arm suddenly behave 
 | Clip range | 0.2 |
 | Normalization | `VecNormalize` (observations, reward) |
 
----
+
 
 ## Results
 
@@ -155,21 +161,20 @@ Without this limit, one lucky or unlucky run could make the arm suddenly behave 
 | :---: | :---: | :---: |
 | **90%** | **0.058 m** | **61.1 steps** |
 
----
 
-## Training graphs
+
+## Training Graphs
 
 <img width="1500" height="750" alt="training_curves" src="https://github.com/user-attachments/assets/32d00901-a634-4e70-91c0-608a193162c3" />
 
 Reward rises sharply after about 4,000 episodes, then stabilizes in the high-40s to low-50s.
 
----
 
-## Training video
+
+## Training Video
 
 <img width="580" height="400" alt="pusher_success" src="https://github.com/user-attachments/assets/7ebcb325-b5dc-42fd-a96b-dbc0fedf616c" />
 
----
 
 ## Team
 
