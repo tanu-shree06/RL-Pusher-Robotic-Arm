@@ -5,10 +5,9 @@ Training a 7-DoF robotic arm to push an object to a goal using **Proximal Policy
 ---
 
 ## Objective
+The objective of this project is to train a 7-DoF robotic arm to push an object towards a specified target position using Reinforcement Learning.
 
-- Understand and train the `Pusher-v5` environment with PPO.
-- Optimize the reward and the control behavior of the arm.
-- Succeed when the object lands **within a 5 cm goal threshold**.
+The arm learns an optimal pushing strategy through trial and error using the Proximal Policy Optimization (PPO) algorithm. A custom reward function is designed to encourage the arm to approach the object, make effective contact, and push it towards the goal
 
 ---
 
@@ -131,24 +130,10 @@ Think of clipping as a **speed limit on learning**. After each round of practice
 
 - If an action has already become 20% more likely, PPO stops pushing it further, even if it looked really good.
 - If a bad action has already become 20% less likely, PPO stops reducing it further.
-
 Without this limit, one lucky or unlucky run could make the arm suddenly behave completely differently and undo everything it had learned. With it, the arm improves steadily.
 
-### Why PPO over policy gradient (REINFORCE)?
-
-- Plain policy gradient uses each batch of experience for **one update and then throws it away**. PPO **reuses the same data for many updates**, so it learns faster from less experience.
-- Plain policy gradient has **no limit on step size**, so a single large update can ruin the policy. PPO's clipping prevents this.
-- Plain policy gradient learns from noisy full-episode scores, so training is **jumpy**. PPO uses the critic to give a steadier signal.
-- PPO is still **just as simple** to write: ordinary gradient descent with one extra clip.
-
-### Why PPO over TRPO?
-
-- TRPO also keeps updates small, but it does it with **complicated maths** (second-order optimization, conjugate gradient, line search). PPO gets the same effect with a simple clip.
-- PPO is **much easier to implement and debug**, and **faster** per update.
-- PPO works with **standard optimizers and neural network setups** without special tricks.
-- In practice PPO gives **similar performance** to TRPO on most tasks, so there is little reason to pay for the extra complexity.
-
 ---
+
 
 ## Training hyperparameters
 
