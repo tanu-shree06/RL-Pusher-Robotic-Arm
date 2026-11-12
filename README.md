@@ -7,7 +7,7 @@ The objective of this project is to train a 7-DoF robotic arm to push an object 
 The arm learns an optimal pushing strategy through trial and error using the Proximal Policy Optimization (PPO) algorithm. A custom reward function is designed to encourage the arm to approach the object, make effective contact, and push it towards the goal
 
 
-## 🤖 What is RL?
+## What is RL?
 
 Reinforcement Learning (RL) is how a computer learns to do a task **by practicing**, the same way you learn a video game or train a pet.
 
@@ -28,7 +28,7 @@ Reinforcement Learning (RL) is how a computer learns to do a task **by practicin
 ## APPROACH 
 
 
-## 🌍 Environment and observation space
+## Environment and observation space
 
 We use the Gymnasium **`Pusher-v5`** environment (MuJoCo): a 7-DoF arm with a forked tip pushes a cylinder to a red goal disc.
 
@@ -50,7 +50,7 @@ We use the Gymnasium **`Pusher-v5`** environment (MuJoCo): a 7-DoF arm with a fo
 | 20 – 22 | Goal position (x, y, z) |
 
 
-## 🦾 Action Space
+## Action Space
 
 
 <img width="265" height="171" alt="pusher" src="https://github.com/user-attachments/assets/09e9f3a9-dd82-4a42-9122-68568fd679d2" />
@@ -69,7 +69,7 @@ Each action is a vector of **7 joint torques**, one per joint, each in the range
 | q6 | Wrist roll |
 
 
-## ⭐ Reward Function
+## Reward Function
 
 ### Default Gymnasium reward
 
@@ -138,7 +138,7 @@ Without this limit, one lucky or unlucky run could make the arm suddenly behave 
 
 
 
-## ☢️ Training Hyperparameters
+## Training Hyperparameters
 
 | Setting | Value |
 | --- | --- |
